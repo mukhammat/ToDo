@@ -3,8 +3,9 @@ const jsonwebtoken = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const { createUser, findUserByUsername } = require('../models/user');
+require('dotenv').config();
 
-const JWT_SECRET = 'nohalahbi';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Registration
 router.post(
