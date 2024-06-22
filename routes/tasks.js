@@ -1,5 +1,7 @@
 const router = require('express').Router();
+const jsonwebtoken = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
+require('dotenv').config();
 
 const {
     getTasks,
@@ -7,6 +9,33 @@ const {
     putTask,
     deleteTask,
 } = require('../controller/tasks');
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+const authenticate = (req, res, next) => {
+    const authHeaader = req.headers.authentication;
+
+    if (!authHeaader) {
+        return res
+            .status(401)
+            .json({ message: 'Authorization header is missing' });
+    }
+
+    const token = authHeaader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token is missing' });
+    }
+
+    try {
+        const payload = jsonwebtoken.verify(token, JWT_SECRET);
+        req.userId = payload.userId;
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Invalid token' });
+    }
+};
+router.use(authenticate);
 
 router.post(
     '/tasks',
