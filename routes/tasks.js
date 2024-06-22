@@ -13,7 +13,7 @@ const {
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const authenticate = (req, res, next) => {
-    const authHeaader = req.headers.authentication;
+    const authHeaader = req.headers.authorization;
 
     if (!authHeaader) {
         return res
