@@ -18,4 +18,34 @@ const validateTask = [
     },
 ];
 
-module.exports = { validateTask };
+const validateRegister = [
+    check('username')
+        .not()
+        .isEmpty()
+        .withMessage('Username is required')
+        .isLength({ max: 20 })
+        .withMessage('Max length username is 20'),
+    check('password')
+        .not()
+        .isEmpty()
+        .withMessage('Password is reqired')
+        .isLength({ mix: 8 })
+        .withMessage('Min length password is 8'),
+];
+
+const validateLogin = [
+    check('username')
+        .not()
+        .isEmpty()
+        .withMessage('Username is required')
+        .isLength({ max: 20 })
+        .withMessage('Max length username is 20'),
+    check('password')
+        .not()
+        .isEmpty()
+        .withMessage('Password is reqired')
+        .isLength({ mix: 8 })
+        .withMessage('Min length password is 8'),
+];
+
+module.exports = { validateTask, validateRegister, validateLogin };
