@@ -10,16 +10,11 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 // Registration
 router.post('/register', validateRegister, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     const { username, password } = req.body;
     const existingUser = findUserByUsername(username);
 
     if (existingUser) {
-        return req.status(400).json({ message: 'User already exists' });
+        return res.status(400).json({ message: 'User already exists' });
     }
 
     const user = await createUser({ username, password });
@@ -32,11 +27,6 @@ router.post('/register', validateRegister, async (req, res) => {
 
 // Sign In
 router.post('/login', validateLogin, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     const { username, password } = req.body;
     const user = findUserByUsername(username);
 
